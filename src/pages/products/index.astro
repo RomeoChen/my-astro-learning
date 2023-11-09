@@ -1,0 +1,41 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { getCollection } from "astro:content";
+
+const products = await getCollection("product");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main class="text-center w-full">
+      {
+        products.map((product) => (
+          <a
+            href={`/products/${product.slug}/`}
+            class="flex flex-col items-center mb-5"
+          >
+            <img
+              width={720}
+              height={360}
+              src={product.data.productImage}
+              alt=""
+            />
+            <h4 class="title mt-3">{product.data.title}</h4>
+            <span>{product.data.price}</span>
+            <span>{product.data.createDate}</span>
+            <span>{product.data.productName}</span>
+          </a>
+        ))
+      }
+      <Footer />
+    </main>
+  </body>
+</html>
